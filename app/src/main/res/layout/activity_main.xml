@@ -59,42 +59,11 @@
         android:textSize="30dp"
         android:layout_below="@id/dday"/>
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="음성 인식"
-        android:onClick="Onclick1"
-        android:layout_below="@id/result"
-        android:background="@drawable/buttondesign2"
-        android:textColor="#FFF5F5"
-        android:textSize="30sp"
-        android:shadowColor="#E8B0E8"
-        android:shadowDx="4"
-        android:shadowDy="0"
-        android:shadowRadius="2"
-        />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/seekbartext"
-        android:background="@drawable/buttondesign2"
-        android:onClick="Onclick2"
-        android:shadowColor="#E8B0E8"
-        android:shadowDx="4"
-        android:shadowDy="0"
-        android:shadowRadius="2"
-        android:text="내 위치"
-        android:textColor="#FFF5F5"
-        android:textSize="30sp" />
-
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button"
+        android:layout_below="@id/seekbartext"
         android:layout_marginTop="5dp"
         android:max="10"
         android:progress="5"
@@ -106,25 +75,9 @@
         android:id="@+id/seekbartext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/seekBar"
+        android:layout_below="@id/result"
         android:textSize="30sp"
         android:text="말하기 속도"
         android:fontFamily="@font/font1"/>
 
-    <Button
-        android:id="@+id/TTS"
-        android:layout_width="150dp"
-        android:layout_height="wrap_content"
-        android:text="남은 날짜"
-        android:onClick="Onclick3"
-        android:layout_below="@id/result"
-        android:background="@drawable/buttondesign2"
-        android:textColor="#FFF5F5"
-        android:layout_toRightOf="@id/button"
-        android:textSize="30sp"
-        android:shadowColor="#E8B0E8"
-        android:shadowDx="4"
-        android:shadowDy="0"
-        android:shadowRadius="2"
-        />
 </RelativeLayout>

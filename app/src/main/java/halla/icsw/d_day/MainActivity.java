@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity
     private int dMonth = 0;
     private int dDay = 0;
     private final int GET_GALLERY_IMAGE = 200;
-    private ImageView imageview;
     private RelativeLayout RelativeLayout;
 
     private long d;
@@ -257,26 +256,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        if (requestCode == 0 && resultCode == RESULT_OK) {
-//            ArrayList<String> result =
-//                    data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-//            String str = result.get(0);
-//            ddayText.setText(str);
-//            String str2 = ddayText.getText().toString();
-//            Speak(str2 + "는 날짜가아닙니다");
-//        }
-//
-//        super.onActivityResult(requestCode, resultCode, data);
-//    }
-
 
     public void Onclick2(View view) {
 
         Intent intent = new Intent(getApplicationContext(), MapActivity.class);
         startActivity(intent);
         finish();
-    } // Button 내위치는 눌렀을때
+    } // 메뉴 내위치를 눌렀을때
 
 
     public void Speak(String str) {
@@ -288,32 +274,6 @@ public class MainActivity extends AppCompatActivity
         }
     } // TTS 스피킹
 
-
-    public void Onclick3(View view) {
-        String str = resultText.getText().toString();
-        Speak("남은 날짜는"+ str);
-    } // Button 남은 날짜는 눌렀을때
-
-//    public static void setSeekberThumb(final SeekBar seekBar, final Resources res) {
-//        seekBar.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-//            @Override
-//            public boolean onPreDraw() {
-//
-//                if (seekBar.getHeight() > 0) {
-//                    Drawable thumb = res.getDrawable(R.drawable.seekbar_thumb);
-//                    int h = seekBar.getMeasuredHeight();
-//                    int w = h;
-//                    Bitmap bmpOrg = ((BitmapDrawable) thumb).getBitmap();
-//                    Bitmap bmpScaled = Bitmap.createScaledBitmap(bmpOrg, w, h, true);
-//                    Drawable newThumb = new BitmapDrawable(res, bmpScaled);
-//                    newThumb.setBounds(0, 0, newThumb.getIntrinsicWidth(), newThumb.getIntrinsicHeight());
-//                    seekBar.setThumb(newThumb);
-//                    seekBar.getViewTreeObserver().removeOnPreDrawListener(this);
-//                }
-//                return true;
-//            }
-//        });
-//    }
 @Override
 public boolean onCreateOptionsMenu(Menu menu)
 {
@@ -345,14 +305,3 @@ public boolean onOptionsItemSelected(MenuItem item) {
         finish();
     }
 }
-//        actionBar.setCustomView(mCustomView);
-//
-//    Toolbar parent = (Toolbar) mCustomView.getParent();
-//    parent.setContentInsetsAbsolute(0,0);
-//
-//    actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.dday2));
-//
-//    ActionBar.LayoutParams params = new ActionBar.LayoutParams(ActionBar.LayoutParams.MATCH_PARENT);
-//    actionBar.setCustomView(mCustomView,params);
-//}//액션바 커스텀
-
