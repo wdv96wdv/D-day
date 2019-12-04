@@ -76,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast toast = Toast.makeText(LoginActivity.this, "로그인성공", Toast.LENGTH_SHORT);
                     toast.show();
                     //인텐트 생성 및 호출
-                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(),ListActivity.class);
                     startActivity(intent);
                     finish();
                 }

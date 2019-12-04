@@ -80,4 +80,6 @@
         android:text="말하기 속도"
         android:fontFamily="@font/font1"/>
 
+
+
 </RelativeLayout>
