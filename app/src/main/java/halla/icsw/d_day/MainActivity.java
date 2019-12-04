@@ -9,6 +9,8 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.drm.DrmStore;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -26,6 +28,7 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -46,7 +49,10 @@ public class MainActivity extends AppCompatActivity
     TextToSpeech tts;
     float speed = 0;
     TextView stv;
-
+    ListView listView;
+    DatabaseOpenHelper helper;
+    SQLiteDatabase database;
+    Cursor cursor;
 
     private TextView ddayText;
     private TextView todayText;
@@ -104,9 +110,19 @@ public class MainActivity extends AppCompatActivity
         dateButton = findViewById(R.id.dateButton);
         SeekBar sb = findViewById(R.id.seekBar);
         RelativeLayout = findViewById(R.id.Layout);
-
-
-        Drawable draw = getDrawable(R.drawable.dday2);//메인화면 레이아웃 백그라운드 이미지
+        String sql = "SELECT img FROM"+ helper.tableName;
+        String img = null;
+        if(database.rawQuery(sql,null)!=null){
+            cursor = database.rawQuery(sql,null);
+            cursor.moveToLast();
+            img = cursor.getString(cursor.getPosition());
+        }
+        Drawable draw;
+        if(img !=null)
+            draw = Drawable.createFromPath(img);
+        else
+            draw = getDrawable(R.drawable.dday2);//메인화면 레이아웃 백그라운드 이미지
+        
         draw.setAlpha(70);//투명도
         RelativeLayout.setBackgroundDrawable(draw);
 
@@ -127,8 +143,6 @@ public class MainActivity extends AppCompatActivity
         });
 
         dateButton.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -184,8 +198,9 @@ public class MainActivity extends AppCompatActivity
                 in.close();
                 Drawable drawable =new BitmapDrawable(img);
                 drawable.setAlpha(70);
+                String image = String.valueOf(drawable);
+                helper.image(database,image);
                 RelativeLayout.setBackgroundDrawable(drawable);
-
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -249,9 +264,9 @@ public class MainActivity extends AppCompatActivity
 
 
     private void updateDisplay() {
-
         todayText.setText(String.format("%d년 %d월 %d일", tYear, tMonth + 1, tDay));
         ddayText.setText(String.format("%d년 %d월 %d일", dYear, dMonth + 1, dDay));
+
 
         if (resultNumber > 0) {
             resultText.setText(String.format("D-%d", resultNumber));
