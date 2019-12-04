@@ -158,6 +158,15 @@ public class MainActivity extends AppCompatActivity
         updateDisplay();
         setActionBar();
     }
+    public void timeget(){
+        Calendar dCalendar = Calendar.getInstance();
+        dCalendar.set(dYear, dMonth, dDay);
+        Calendar calendar = Calendar.getInstance();
+        t = calendar.getTimeInMillis();                 //오늘 날짜를 밀리타임으로 바꿈
+        d = dCalendar.getTimeInMillis();              //디데이날짜를 밀리타임으로 바꿈
+        r = (d - t) / (24 * 60 * 60 * 1000);                 //디데이 날짜에서 오늘 날짜를 뺀 값을 '일'단위로 바꿈
+        resultNumber = (int) r;
+    }
     private  void setActionBar() {
         CustomActionBar ca = new CustomActionBar(this, getSupportActionBar());
         ca.setActionBar();
@@ -187,12 +196,53 @@ public class MainActivity extends AppCompatActivity
 
         }
         if (requestCode == 0 && resultCode == RESULT_OK) {
+            boolean voiceCheck[] =new boolean[4];
             ArrayList<String> result =
                     data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             String str = result.get(0);
             ddayText.setText(str);
             String str2 = ddayText.getText().toString();
-            Speak(str2 + "는 날짜가아닙니다");
+            String sss[] = str2.split("");
+            for(int i=1; i<sss.length; i++){
+                if(sss[i].equals("년")) {
+                    dYear= Integer.parseInt(sss[i-4]+sss[i-3]+sss[i-2]+sss[i-1]);
+                    voiceCheck[0]=true;
+                }
+
+                if (sss[i].equals("월")){
+                    if(sss[i-2].equals(" ")) {
+                        dMonth= Integer.parseInt(sss[i-1]);
+                        voiceCheck[1]=true;
+                    }
+                    else {
+                        dMonth= Integer.parseInt(sss[i-2]+sss[i-1])-1;
+                        voiceCheck[1]=true;
+                    }
+                }
+                if(sss[i].equals("일")){
+                    if(sss[i-2].equals(" ")) {
+                        dDay = Integer.parseInt(sss[i-1]);
+                        voiceCheck[2]=true;
+                    }
+                    else {
+                        voiceCheck[2]=true;
+                        dDay = Integer.parseInt(sss[i-2]+sss[i-1]);
+                    }
+                }
+            }
+            voiceCheck[3]=true;
+            for(int i=0; i<3; i++){
+                if(!voiceCheck[i]){
+                    voiceCheck[3]=false;
+                }
+            }
+            if(voiceCheck[3]) {
+                timeget();
+                updateDisplay();
+                for(int i=0; i<3; i++) voiceCheck[i]=false;
+                Speak(resultText.getText().toString());
+            }
+            else Speak(str2+"은 날짜가 아닙니다.");
         }
 
         super.onActivityResult(requestCode, resultCode, data);
