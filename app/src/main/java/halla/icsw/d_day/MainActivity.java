@@ -57,9 +57,9 @@ public class MainActivity extends AppCompatActivity
     private int tMonth;
     private int tDay;
 
-    private int dYear = 1;        //디데이 연월일 변수
-    private int dMonth = 1;
-    private int dDay = 1;
+    private int dYear = 0;        //디데이 연월일 변수
+    private int dMonth = 0;
+    private int dDay = 0;
     private final int GET_GALLERY_IMAGE = 200;
     private ImageView imageview;
     private RelativeLayout RelativeLayout;
@@ -143,6 +143,10 @@ public class MainActivity extends AppCompatActivity
         tMonth = calendar.get(Calendar.MONTH);
         tDay = calendar.get(Calendar.DAY_OF_MONTH);
 
+        dYear =tYear;
+        dMonth =tMonth;
+        dDay = tDay;
+
         Calendar dCalendar = Calendar.getInstance();
         dCalendar.set(dYear, dMonth, dDay);
 
@@ -150,7 +154,7 @@ public class MainActivity extends AppCompatActivity
         d = dCalendar.getTimeInMillis();              //디데이날짜를 밀리타임으로 바꿈
         r = (d - t) / (24 * 60 * 60 * 1000);                 //디데이 날짜에서 오늘 날짜를 뺀 값을 '일'단위로 바꿈
 
-        resultNumber = (int) r + 1;
+        resultNumber = (int) r;
         updateDisplay();
         setActionBar();
     }
@@ -221,9 +225,13 @@ public class MainActivity extends AppCompatActivity
             dDay = dayOfMonth;
             final Calendar dCalendar = Calendar.getInstance();
             dCalendar.set(dYear, dMonth, dDay);
-
+            Calendar calendar = Calendar.getInstance();
+            t = calendar.getTimeInMillis();
             d = dCalendar.getTimeInMillis();
             r = (d - t) / (24 * 60 * 60 * 1000);
+            if(r<85000000 && r>70000000){
+                r=-1;
+            }
 
             resultNumber = (int) r;
             updateDisplay();
