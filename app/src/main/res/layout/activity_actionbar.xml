@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical">
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        app:srcCompat="@android:drawable/ic_menu_revert"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        android:onClick="backbtn"/>
+
+    <TextView
+        android:layout_width="130dp"
+        android:layout_height="35dp"
+        android:layout_centerInParent="true"
+        android:text="언젠간 D-day"
+        android:fontFamily="@font/font1"
+        android:textSize="22dp"/>
+
+
+
+</RelativeLayout>

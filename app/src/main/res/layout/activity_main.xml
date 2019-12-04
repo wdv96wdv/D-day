@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:id="@+id/Layout"
+
+
+    >
+
+
+    <TextView
+        android:id="@+id/d_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="D-DAY"
+        android:textSize="50dp"
+        android:fontFamily="@font/font1"/>
+
+    <ImageButton
+        android:id="@+id/dateButton"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="19dp"
+        android:layout_marginBottom="41dp"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/today"
+        android:text="오늘날짜"
+        android:textSize="30dp"
+        android:layout_below="@id/d_day"
+        android:fontFamily="@font/font1"/>
+
+    <TextView
+        android:id="@+id/dday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/today"
+        android:text="디데이"
+        android:textSize="30dp"
+        android:fontFamily="@font/font1"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/result"
+        android:text="결과"
+        android:textSize="30dp"
+        android:layout_below="@id/dday"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="음성 인식"
+        android:onClick="Onclick1"
+        android:layout_below="@id/result"
+        android:background="@drawable/buttondesign3"
+        android:textColor="#FFF5F5"
+        android:textSize="30sp"
+        android:shadowColor="#E8B0E8"
+        android:shadowDx="4"
+        android:shadowDy="0"
+        android:shadowRadius="2"
+        />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seekbartext"
+        android:background="@drawable/buttondesign2"
+        android:onClick="Onclick2"
+        android:shadowColor="#E8B0E8"
+        android:shadowDx="4"
+        android:shadowDy="0"
+        android:shadowRadius="2"
+        android:text="내 위치"
+        android:textColor="#FFF5F5"
+        android:textSize="30sp" />
+
+    <SeekBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button"
+        android:layout_marginTop="5dp"
+        android:max="10"
+        android:progress="5"
+        android:progressDrawable="@drawable/seekbar_progress"
+        android:scrollbarSize="@android:dimen/notification_large_icon_height"
+        android:thumb="@drawable/seekbar_thumb" />
+
+    <TextView
+        android:id="@+id/seekbartext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/seekBar"
+        android:textSize="30sp"
+        android:text="말하기 속도"
+        android:fontFamily="@font/font1"/>
+
+    <Button
+        android:id="@+id/TTS"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/button"
+        android:layout_below="@id/result"
+        android:onClick="Onclick3"
+        android:text="남은 날짜"
+        android:textColor="#FFF5F5"
+        android:textSize="30sp"
+        android:shadowColor="#07E8B3"
+        android:shadowDx="4"
+        android:shadowDy="0"
+        android:shadowRadius="2"
+        android:background="@drawable/buttondesign3"/>
+</RelativeLayout>
