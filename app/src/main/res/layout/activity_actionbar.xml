@@ -21,9 +21,12 @@
         android:layout_width="130dp"
         android:layout_height="35dp"
         android:layout_centerInParent="true"
-        android:text="언젠간 D-day"
         android:fontFamily="@font/font1"
-        android:textSize="22dp"/>
+        android:text="언젠간 D-day"
+        android:textSize="24dp"
+        
+       />
+
 
 
 

@@ -61,12 +61,12 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:text="음성 인식"
         android:onClick="Onclick1"
         android:layout_below="@id/result"
-        android:background="@drawable/buttondesign3"
+        android:background="@drawable/buttondesign2"
         android:textColor="#FFF5F5"
         android:textSize="30sp"
         android:shadowColor="#E8B0E8"
@@ -77,7 +77,7 @@
 
     <Button
         android:id="@+id/button2"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/seekbartext"
         android:background="@drawable/buttondesign2"
@@ -113,17 +113,18 @@
 
     <Button
         android:id="@+id/TTS"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/button"
-        android:layout_below="@id/result"
-        android:onClick="Onclick3"
         android:text="남은 날짜"
+        android:onClick="Onclick3"
+        android:layout_below="@id/result"
+        android:background="@drawable/buttondesign2"
         android:textColor="#FFF5F5"
+        android:layout_toRightOf="@id/button"
         android:textSize="30sp"
-        android:shadowColor="#07E8B3"
+        android:shadowColor="#E8B0E8"
         android:shadowDx="4"
         android:shadowDy="0"
         android:shadowRadius="2"
-        android:background="@drawable/buttondesign3"/>
+        />
 </RelativeLayout>
