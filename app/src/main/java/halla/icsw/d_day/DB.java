@@ -25,7 +25,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
     }
 
     public void createTable(SQLiteDatabase db){
-        String sql = "CREATE TABLE " + tableName + "(id text, pw text, img text)";
+        String sql = "CREATE TABLE " + tableName + "(id text, pw text, img BLOB)";
         try {
             db.execSQL(sql);
         }catch (SQLException e){
