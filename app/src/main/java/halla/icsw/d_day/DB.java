@@ -32,17 +32,22 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void insertUser(SQLiteDatabase db, String id, String pw){
-        Log.i("tag","회원가입을 했을때 실행함");
+    public void insertUser(SQLiteDatabase db, String id, String pw) {
+        Log.i("tag", "회원가입을 했을때 실행함");
         db.beginTransaction();
         try {
-            String sql = "INSERT INTO " + tableName + "(id, pw)" + "values('"+ id +"', '"+pw+"')";
+            String sql = "INSERT INTO " + tableName + "(id, pw)" + "values('" + id + "', '" + pw + "')";
             db.execSQL(sql);
             db.setTransactionSuccessful();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             db.endTransaction();
         }
     }
 }
+
+
+
+
+

@@ -26,6 +26,4 @@ public class FirstActivity extends AppCompatActivity {
         };
         hand.sendEmptyMessageDelayed(0,3000);
     }
-
-
 }
