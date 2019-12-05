@@ -25,7 +25,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
     }
 
     public void createTable(SQLiteDatabase db){
-        String sql = "CREATE TABLE " + tableName + "(id text, pw text)";
+        String sql = "CREATE TABLE " + tableName + "(id text, pw text, img BLOB)";
         try {
             db.execSQL(sql);
         }catch (SQLException e){
@@ -42,6 +42,20 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
+            db.endTransaction();
+        }
+    }
+
+    public void image(SQLiteDatabase db ,String draw){
+        db.beginTransaction();
+        try {
+            String sql = "INSERT INTO " + tableName + "(img)" + "values('"+ draw +"')";
+            db.execSQL(sql);
+            db.setTransactionSuccessful();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
             db.endTransaction();
         }
     }

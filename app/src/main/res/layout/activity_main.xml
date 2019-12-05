@@ -6,10 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:id="@+id/Layout"
-
-
-    >
+    android:id="@+id/Layout">
 
 
     <TextView
@@ -64,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/seekbartext"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="7dp"
         android:max="10"
         android:progress="5"
         android:progressDrawable="@drawable/seekbar_progress"

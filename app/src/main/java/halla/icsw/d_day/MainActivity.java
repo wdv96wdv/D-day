@@ -10,6 +10,8 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.drm.DrmStore;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -19,6 +21,7 @@ import android.media.session.PlaybackState;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,12 +31,14 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -47,9 +52,13 @@ import halla.icsw.d_day.customView.CustomActionBar;
 public class MainActivity extends AppCompatActivity
     implements TextToSpeech.OnInitListener {
     TextToSpeech tts;
+    int version = 1;
     float speed = 0;
     TextView stv;
-
+    ListView listView;
+    DatabaseOpenHelper helper;
+    SQLiteDatabase database;
+    Cursor cursor;
 
     private TextView ddayText;
     private TextView todayText;
@@ -98,7 +107,8 @@ public class MainActivity extends AppCompatActivity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        helper = new DatabaseOpenHelper(MainActivity.this, DatabaseOpenHelper.tableName, null, version);
+        database = helper.getWritableDatabase();
         stv = findViewById(R.id.seekbartext);
         tts = new TextToSpeech(this, this);
         ddayText = findViewById(R.id.dday);
@@ -107,9 +117,22 @@ public class MainActivity extends AppCompatActivity
         dateButton = findViewById(R.id.dateButton);
         SeekBar sb = findViewById(R.id.seekBar);
         RelativeLayout = findViewById(R.id.Layout);
+        String sql = "SELECT img FROM "+ helper.tableName;
+        String img = null;
+        cursor = database.rawQuery(sql,null);
+        cursor.moveToLast();
 
-
-        Drawable draw = getDrawable(R.drawable.dday2);//메인화면 레이아웃 백그라운드 이미지
+        int x =cursor.getCount()-1;
+        Drawable draw;
+        if(cursor.getCount()==1){
+            draw = getDrawable(R.drawable.dday2);//메인화면 레이아웃 백그라운드 이미지
+        }
+        else{
+            img = cursor.getString(cursor.getPosition()-x);
+            byte[] encodeByte =Base64.decode(img,Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
+            draw =new BitmapDrawable(bitmap);
+        }
         draw.setAlpha(70);//투명도
         RelativeLayout.setBackgroundDrawable(draw);
 
@@ -130,8 +153,6 @@ public class MainActivity extends AppCompatActivity
         });
 
         dateButton.setOnClickListener(new View.OnClickListener() {
-
-
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -184,12 +205,21 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             try {
                 InputStream in = getContentResolver().openInputStream(data.getData());
-                Bitmap img = BitmapFactory.decodeStream(in);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+
+                options.inSampleSize = 2;
+                Bitmap img = BitmapFactory.decodeStream(in,null,options);
                 in.close();
                 Drawable drawable =new BitmapDrawable(img);
                 drawable.setAlpha(70);
                 RelativeLayout.setBackgroundDrawable(drawable);
 
+           //     ByteArrayOutputStream baos = new ByteArrayOutputStream();
+          //      img = BitmapFactory.decodeStream(in,null,options);
+            //    img.compress(Bitmap.CompressFormat.PNG,70,baos);
+            //   byte[] bytes = baos.toByteArray();
+             //   String imgstring = Base64.encodeToString(bytes,Base64.DEFAULT);
+              //  helper.image(database,imgstring);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -249,13 +279,13 @@ public class MainActivity extends AppCompatActivity
         }
 
         super.onActivityResult(requestCode, resultCode, data);
-    }//갤러리 연동
+    }
 
 
     private void updateDisplay() {
-
         todayText.setText(String.format("%d년 %d월 %d일", tYear, tMonth + 1, tDay));
         ddayText.setText(String.format("%d년 %d월 %d일", dYear, dMonth + 1, dDay));
+
 
         if (resultNumber > 0) {
             resultText.setText(String.format("D-%d", resultNumber));
