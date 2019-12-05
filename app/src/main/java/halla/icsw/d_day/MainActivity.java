@@ -213,13 +213,7 @@ public class MainActivity extends AppCompatActivity
                 Drawable drawable =new BitmapDrawable(img);
                 drawable.setAlpha(70);
                 RelativeLayout.setBackgroundDrawable(drawable);
-
-           //     ByteArrayOutputStream baos = new ByteArrayOutputStream();
-          //      img = BitmapFactory.decodeStream(in,null,options);
-            //    img.compress(Bitmap.CompressFormat.PNG,70,baos);
-            //   byte[] bytes = baos.toByteArray();
-             //   String imgstring = Base64.encodeToString(bytes,Base64.DEFAULT);
-              //  helper.image(database,imgstring);
+                ;
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -384,7 +378,7 @@ public boolean onOptionsItemSelected(MenuItem item) {
     return super.onOptionsItemSelected(item);
     }
     public void backbtn(View view){
-        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+        Intent intent = new Intent(getApplicationContext(), ListActivity.class);
         startActivity(intent);
         finish();
     }
