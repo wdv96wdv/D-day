@@ -38,6 +38,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.gms.maps.MapView;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -49,7 +51,7 @@ import java.util.Locale;
 
 import halla.icsw.d_day.customView.CustomActionBar;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends MapActivity
     implements TextToSpeech.OnInitListener {
     TextToSpeech tts;
     int version = 1;
@@ -117,6 +119,9 @@ public class MainActivity extends AppCompatActivity
         dateButton = findViewById(R.id.dateButton);
         SeekBar sb = findViewById(R.id.seekBar);
         RelativeLayout = findViewById(R.id.Layout);
+        MapView mapView = findViewById(R.id.mapView);
+
+
         String sql = "SELECT img FROM "+ helper.tableName;
         String img = null;
         cursor = database.rawQuery(sql,null);
@@ -191,6 +196,8 @@ public class MainActivity extends AppCompatActivity
         r = (d - t) / (24 * 60 * 60 * 1000);                 //디데이 날짜에서 오늘 날짜를 뺀 값을 '일'단위로 바꿈
         resultNumber = (int) r;
     }
+
+
     private  void setActionBar() {
         CustomActionBar ca = new CustomActionBar(this, getSupportActionBar());
         ca.setActionBar();
@@ -206,14 +213,14 @@ public class MainActivity extends AppCompatActivity
             try {
                 InputStream in = getContentResolver().openInputStream(data.getData());
                 BitmapFactory.Options options = new BitmapFactory.Options();
-
                 options.inSampleSize = 2;
                 Bitmap img = BitmapFactory.decodeStream(in,null,options);
                 in.close();
                 Drawable drawable =new BitmapDrawable(img);
                 drawable.setAlpha(70);
                 RelativeLayout.setBackgroundDrawable(drawable);
-                ;
+
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
