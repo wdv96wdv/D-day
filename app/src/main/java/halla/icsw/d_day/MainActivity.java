@@ -38,6 +38,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.gms.maps.MapView;
+
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -49,12 +51,13 @@ import java.util.Locale;
 
 import halla.icsw.d_day.customView.CustomActionBar;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends MapActivity
     implements TextToSpeech.OnInitListener {
     TextToSpeech tts;
     int version = 1;
     float speed = 0;
     TextView stv;
+    ListView listView;
     DatabaseOpenHelper helper;
     SQLiteDatabase database;
     Cursor cursor;
@@ -116,39 +119,24 @@ public class MainActivity extends AppCompatActivity
         dateButton = findViewById(R.id.dateButton);
         SeekBar sb = findViewById(R.id.seekBar);
         RelativeLayout = findViewById(R.id.Layout);
+        MapView mapView = findViewById(R.id.mapView);
 
-        int request = getIntent().getIntExtra("request", -1);
 
-        switch (request) {
-            case 0:
-
-                dateButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.putExtra("data", "한라대학교");
-                        setResult(0, intent);
-                        finish(); // 액테비티가 종료되면 ListActivity의 onResume 메서드가 실행되면서 리스트를 dataSetChange메서드를 이용해서 list를 갱신합니다.
-                    }
-                });
-
-                break;
-        }
-
-        String sql = "SELECT img FROM " + helper.tableName;
+        String sql = "SELECT img FROM "+ helper.tableName;
         String img = null;
-        cursor = database.rawQuery(sql, null);
+        cursor = database.rawQuery(sql,null);
         cursor.moveToLast();
 
-        int x = cursor.getCount() - 1;
+        int x =cursor.getCount()-1;
         Drawable draw;
-        if (cursor.getCount() == 1) {
+        if(cursor.getCount()==1){
             draw = getDrawable(R.drawable.dday2);//메인화면 레이아웃 백그라운드 이미지
-        } else {
-            img = cursor.getString(cursor.getPosition() - x);
-            byte[] encodeByte = Base64.decode(img, Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
-            draw = new BitmapDrawable(bitmap);
+        }
+        else{
+            img = cursor.getString(cursor.getPosition()-x);
+            byte[] encodeByte =Base64.decode(img,Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
+            draw =new BitmapDrawable(bitmap);
         }
         draw.setAlpha(70);//투명도
         RelativeLayout.setBackgroundDrawable(draw);
@@ -183,8 +171,8 @@ public class MainActivity extends AppCompatActivity
         tMonth = calendar.get(Calendar.MONTH);
         tDay = calendar.get(Calendar.DAY_OF_MONTH);
 
-        dYear = tYear;
-        dMonth = tMonth;
+        dYear =tYear;
+        dMonth =tMonth;
         dDay = tDay;
 
         Calendar dCalendar = Calendar.getInstance();
@@ -199,7 +187,6 @@ public class MainActivity extends AppCompatActivity
         setActionBar();
     }
 
-
     public void timeget(){
         Calendar dCalendar = Calendar.getInstance();
         dCalendar.set(dYear, dMonth, dDay);
@@ -209,6 +196,8 @@ public class MainActivity extends AppCompatActivity
         r = (d - t) / (24 * 60 * 60 * 1000);                 //디데이 날짜에서 오늘 날짜를 뺀 값을 '일'단위로 바꿈
         resultNumber = (int) r;
     }
+
+
     private  void setActionBar() {
         CustomActionBar ca = new CustomActionBar(this, getSupportActionBar());
         ca.setActionBar();
@@ -224,14 +213,14 @@ public class MainActivity extends AppCompatActivity
             try {
                 InputStream in = getContentResolver().openInputStream(data.getData());
                 BitmapFactory.Options options = new BitmapFactory.Options();
-
                 options.inSampleSize = 2;
                 Bitmap img = BitmapFactory.decodeStream(in,null,options);
                 in.close();
                 Drawable drawable =new BitmapDrawable(img);
                 drawable.setAlpha(70);
                 RelativeLayout.setBackgroundDrawable(drawable);
-                ;
+
+
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -330,14 +319,6 @@ public class MainActivity extends AppCompatActivity
 
             resultNumber = (int) r;
             updateDisplay();
-            ListActivity.list.add(ddayText.getText().toString()+ "                               " + resultText.getText().toString()); //날짜 입력의 static 메모리 변수에 list에 데이터 추가
-            Intent intent = new Intent();
-            intent.putExtra("data",ddayText.getText().toString()+ "                               " + resultText.getText().toString());
-            setResult(0, intent);
-            ListActivity.tv.setText("");//처음으로 디데이를 입력해주세요 숨기기
-            ListActivity.tv2.setText("");//그 밑 문단 숨기기
-            finish();
-
         }
     };
 

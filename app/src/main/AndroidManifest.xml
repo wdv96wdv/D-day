@@ -29,8 +29,10 @@
         </activity>
 
 
+    <uses-library android:name="com.google.android.maps"/>
     </application>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
     <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyAu6MDaq8WK4a4w_jwAtWsnGv40Oc1QWIw"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
