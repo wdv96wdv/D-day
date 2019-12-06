@@ -39,35 +39,32 @@
         android:background="@android:color/transparent"
         android:onClick="backbtn" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="663dp"
-        android:layout_below="@+id/d_day"
-        android:layout_marginTop="2dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" />
-    </ScrollView>
+    <ListView
+        android:id="@+id/list"
+        android:layout_width="match_parent"
+        android:layout_height="667dp"
+        android:layout_below="@id/d_day">
+
+
+    </ListView>
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/listtv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="처음으로 디데이를 입력해주세요"
         android:layout_centerInParent="true"
         android:fontFamily="@font/font1"
         android:textSize="25dp"/>
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/listtv2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:fontFamily="@font/font1"
         android:textSize="16dp"
-        android:layout_below="@id/textView2"
+        android:layout_below="@id/listtv"
         android:layout_marginTop="50dp"
         android:background="#1A000000"/>
 

@@ -55,7 +55,6 @@ public class MainActivity extends AppCompatActivity
     int version = 1;
     float speed = 0;
     TextView stv;
-    ListView listView;
     DatabaseOpenHelper helper;
     SQLiteDatabase database;
     Cursor cursor;
@@ -117,21 +116,39 @@ public class MainActivity extends AppCompatActivity
         dateButton = findViewById(R.id.dateButton);
         SeekBar sb = findViewById(R.id.seekBar);
         RelativeLayout = findViewById(R.id.Layout);
-        String sql = "SELECT img FROM "+ helper.tableName;
+
+        int request = getIntent().getIntExtra("request", -1);
+
+        switch (request) {
+            case 0:
+
+                dateButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.putExtra("data", "한라대학교");
+                        setResult(0, intent);
+                        finish(); // 액테비티가 종료되면 ListActivity의 onResume 메서드가 실행되면서 리스트를 dataSetChange메서드를 이용해서 list를 갱신합니다.
+                    }
+                });
+
+                break;
+        }
+
+        String sql = "SELECT img FROM " + helper.tableName;
         String img = null;
-        cursor = database.rawQuery(sql,null);
+        cursor = database.rawQuery(sql, null);
         cursor.moveToLast();
 
-        int x =cursor.getCount()-1;
+        int x = cursor.getCount() - 1;
         Drawable draw;
-        if(cursor.getCount()==1){
+        if (cursor.getCount() == 1) {
             draw = getDrawable(R.drawable.dday2);//메인화면 레이아웃 백그라운드 이미지
-        }
-        else{
-            img = cursor.getString(cursor.getPosition()-x);
-            byte[] encodeByte =Base64.decode(img,Base64.DEFAULT);
-            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte,0,encodeByte.length);
-            draw =new BitmapDrawable(bitmap);
+        } else {
+            img = cursor.getString(cursor.getPosition() - x);
+            byte[] encodeByte = Base64.decode(img, Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            draw = new BitmapDrawable(bitmap);
         }
         draw.setAlpha(70);//투명도
         RelativeLayout.setBackgroundDrawable(draw);
@@ -166,8 +183,8 @@ public class MainActivity extends AppCompatActivity
         tMonth = calendar.get(Calendar.MONTH);
         tDay = calendar.get(Calendar.DAY_OF_MONTH);
 
-        dYear =tYear;
-        dMonth =tMonth;
+        dYear = tYear;
+        dMonth = tMonth;
         dDay = tDay;
 
         Calendar dCalendar = Calendar.getInstance();
@@ -181,6 +198,7 @@ public class MainActivity extends AppCompatActivity
         updateDisplay();
         setActionBar();
     }
+
 
     public void timeget(){
         Calendar dCalendar = Calendar.getInstance();
@@ -312,6 +330,14 @@ public class MainActivity extends AppCompatActivity
 
             resultNumber = (int) r;
             updateDisplay();
+            ListActivity.list.add(ddayText.getText().toString()+ "                               " + resultText.getText().toString()); //날짜 입력의 static 메모리 변수에 list에 데이터 추가
+            Intent intent = new Intent();
+            intent.putExtra("data",ddayText.getText().toString()+ "                               " + resultText.getText().toString());
+            setResult(0, intent);
+            ListActivity.tv.setText("");
+            ListActivity.tv2.setText("");
+            finish();
+
         }
     };
 
