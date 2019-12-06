@@ -26,7 +26,7 @@ public class ListActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list);
-        //test2
+        //test
         list = new ArrayList<>();
         list.add("D-day 입력");
 
