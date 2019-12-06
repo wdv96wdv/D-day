@@ -334,8 +334,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent();
             intent.putExtra("data",ddayText.getText().toString()+ "                               " + resultText.getText().toString());
             setResult(0, intent);
-            ListActivity.tv.setText("");
-            ListActivity.tv2.setText("");
+            ListActivity.tv.setText("");//처음으로 디데이를 입력해주세요 숨기기
+            ListActivity.tv2.setText("");//그 밑 문단 숨기기
             finish();
 
         }
