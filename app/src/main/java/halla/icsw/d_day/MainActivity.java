@@ -397,13 +397,14 @@ public boolean onOptionsItemSelected(MenuItem item) {
     }
     return super.onOptionsItemSelected(item);
     }
-    public void backbtn(View view){
+    public void onClickbackbtn(View view){
         Intent intent = new Intent(getApplicationContext(), ListActivity.class);
         startActivity(intent);
         finish();
     }//왼쪽 상단에 백버튼 눌렀을때
 
-    public void onclicksave(View view){String string = ddayText.getText().toString()+ "\n" + resultText.getText().toString()+"                              "+etv.getText().toString()+"\n";
+    public void onClicksave(View view){
+        String string = ddayText.getText().toString()+ "\n" + resultText.getText().toString()+"                              "+etv.getText().toString()+"\n";
         ListActivity.list.add(string); //날짜 입력의 static 메모리 변수에 list에 데이터 추가
         Intent intent = new Intent();
         intent.putExtra("data",string);

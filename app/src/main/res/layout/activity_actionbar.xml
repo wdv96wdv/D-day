@@ -15,7 +15,7 @@
         android:layout_marginLeft="10dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
-        android:onClick="backbtn"/>
+        android:onClick="onClickbackbtn"/>
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -25,7 +25,7 @@
         android:layout_marginRight="10dp"
         android:layout_centerVertical="true"
         android:background="@android:color/transparent"
-        android:onClick="onclicksave"
+        android:onClick="onClicksave"
         android:scaleType="fitCenter"
         app:srcCompat="@android:drawable/ic_menu_save"/>
 
