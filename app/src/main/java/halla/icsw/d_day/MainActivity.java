@@ -29,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -58,11 +59,13 @@ public class MainActivity extends AppCompatActivity
     DatabaseOpenHelper helper;
     SQLiteDatabase database;
     Cursor cursor;
+    EditText etv;
 
     private TextView ddayText;
     private TextView todayText;
     private TextView resultText;
     private ImageButton dateButton;
+
 
     private int tYear;           //오늘 연월일 변수
     private int tMonth;
@@ -116,6 +119,7 @@ public class MainActivity extends AppCompatActivity
         dateButton = findViewById(R.id.dateButton);
         SeekBar sb = findViewById(R.id.seekBar);
         RelativeLayout = findViewById(R.id.Layout);
+        etv = findViewById(R.id.title);
 
         int request = getIntent().getIntExtra("request", -1);
 
@@ -294,7 +298,6 @@ public class MainActivity extends AppCompatActivity
 
 
     private void updateDisplay() {
-        todayText.setText(String.format("%d년 %d월 %d일", tYear, tMonth + 1, tDay));
         ddayText.setText(String.format("%d년 %d월 %d일", dYear, dMonth + 1, dDay));
 
 
@@ -329,14 +332,6 @@ public class MainActivity extends AppCompatActivity
 
             resultNumber = (int) r;
             updateDisplay();
-            ListActivity.list.add(ddayText.getText().toString()+ "                               " + resultText.getText().toString()); //날짜 입력의 static 메모리 변수에 list에 데이터 추가
-            Intent intent = new Intent();
-            intent.putExtra("data",ddayText.getText().toString()+ "                               " + resultText.getText().toString());
-            setResult(0, intent);
-            ListActivity.tv.setText("");//처음으로 디데이를 입력해주세요 숨기기
-            ListActivity.tv2.setText("");//그 밑 문단 숨기기
-            finish();
-
         }
     };
 
@@ -406,5 +401,16 @@ public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent(getApplicationContext(), ListActivity.class);
         startActivity(intent);
         finish();
-    }
+    }//왼쪽 상단에 백버튼 눌렀을때
+
+    public void onclicksave(View view){String string = ddayText.getText().toString()+ "\n" + resultText.getText().toString()+"                              "+etv.getText().toString()+"\n";
+        ListActivity.list.add(string); //날짜 입력의 static 메모리 변수에 list에 데이터 추가
+        Intent intent = new Intent();
+        intent.putExtra("data",string);
+        setResult(0, intent);
+        ListActivity.tv.setText("");//처음으로 디데이를 입력해주세요 숨기기
+        ListActivity.tv2.setText("");//그 밑 문단 숨기기
+        finish();
+
+    }//오른쪽 상단에 세이브버튼 눌렀을때
 }

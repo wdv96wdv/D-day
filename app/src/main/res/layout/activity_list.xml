@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:fontFamily="@font/font1"
+        android:onClick="onclickbtn"
         android:textSize="25dp"/>
 
     <TextView
