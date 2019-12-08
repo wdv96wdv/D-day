@@ -117,6 +117,11 @@ public class MainActivity extends AppCompatActivity
         SeekBar sb = findViewById(R.id.seekBar);
         RelativeLayout = findViewById(R.id.Layout);
 
+        if(savedInstanceState ==null){
+            MainFragment mainFragment = new MainFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.mainFragment,mainFragment,"main").commit();
+        }
+
         int request = getIntent().getIntExtra("request", -1);
 
         switch (request) {
@@ -329,7 +334,8 @@ public class MainActivity extends AppCompatActivity
 
             resultNumber = (int) r;
             updateDisplay();
-            ListActivity.list.add(ddayText.getText().toString()+ "                               " + resultText.getText().toString()); //날짜 입력의 static 메모리 변수에 list에 데이터 추가
+            String asdasd = ddayText.getText().toString()+ "\n" + resultText.getText().toString();
+            ListActivity.list.add(asdasd); //날짜 입력의 static 메모리 변수에 list에 데이터 추가
             Intent intent = new Intent();
             intent.putExtra("data",ddayText.getText().toString()+ "                               " + resultText.getText().toString());
             setResult(0, intent);
