@@ -33,20 +33,14 @@
         android:scaleType="fitCenter"
         app:srcCompat="@android:drawable/ic_input_add" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/d_day"
-        android:fontFamily="@font/font1"
-        android:text="제목 : "
-        android:textSize="30dp" />
+
 
     <EditText
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/d_day"
-        android:layout_toRightOf="@+id/today"
+        android:hint="제목을 입력 하세요."
         android:ems="10"
         android:fontFamily="@font/font1"
         android:inputType="textPersonName"
@@ -56,7 +50,7 @@
         android:id="@+id/dday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/d_day"
+        android:layout_below="@+id/title"
         android:text="디데이"
         android:textSize="30dp"
         android:fontFamily="@font/font1"/>
