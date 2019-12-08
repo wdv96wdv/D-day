@@ -4,6 +4,10 @@ package halla.icsw.d_day;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -85,6 +89,8 @@ public class MainActivity extends AppCompatActivity
 
     static final int DATE_DIALOG_ID = 0;
     private View view;
+    FragmentTransaction fragmentTransaction;
+
 
     @Override
     public void onInit(int status) {
@@ -123,10 +129,11 @@ public class MainActivity extends AppCompatActivity
 
         if(savedInstanceState ==null){
             MainFragment mainFragment = new MainFragment();
-            getSupportFragmentManager().beginTransaction().replace(R.id.mainFragment,mainFragment,"main").commit();
+           fragmentTransaction= getSupportFragmentManager().beginTransaction();
+           fragmentTransaction.replace(R.id.mainFragment,mainFragment,"main").commit();
         }
 
-        int request = getIntent().getIntExtra("request", -1);
+        /*int request = getIntent().getIntExtra("request", -1);
 
         switch (request) {
             case 0:
@@ -142,7 +149,7 @@ public class MainActivity extends AppCompatActivity
                 });
 
                 break;
-        }
+        }*/
 
         String sql = "SELECT img FROM " + helper.tableName;
         String img = null;
@@ -337,15 +344,6 @@ public class MainActivity extends AppCompatActivity
 
             resultNumber = (int) r;
             updateDisplay();
-            String asdasd = ddayText.getText().toString()+ "\n" + resultText.getText().toString();
-            ListActivity.list.add(asdasd); //날짜 입력의 static 메모리 변수에 list에 데이터 추가
-            Intent intent = new Intent();
-            intent.putExtra("data",ddayText.getText().toString()+ "                               " + resultText.getText().toString());
-            setResult(0, intent);
-            ListActivity.tv.setText("");//처음으로 디데이를 입력해주세요 숨기기
-            ListActivity.tv2.setText("");//그 밑 문단 숨기기
-            finish();
-
         }
     };
 
@@ -423,9 +421,17 @@ public boolean onOptionsItemSelected(MenuItem item) {
         Intent intent = new Intent();
         intent.putExtra("data",string);
         setResult(0, intent);
-        ListActivity.tv.setText("");//처음으로 디데이를 입력해주세요 숨기기
-        ListActivity.tv2.setText("");//그 밑 문단 숨기기
-        finish();
+        ListActivity.tv.setText(""); //처음으로 디데이를 입력해주세요 숨기기
+        ListActivity.tv2.setText(""); //그 밑 문단 숨기기
+
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.mainFragment);
+        fragmentTransaction.addToBackStack(null);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().remove(fragment).commit();
+        fragmentManager.popBackStack();
+
+
+       finish();
 
     }//오른쪽 상단에 세이브버튼 눌렀을때
 }

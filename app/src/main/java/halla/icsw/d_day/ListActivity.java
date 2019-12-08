@@ -36,7 +36,7 @@ public class ListActivity extends AppCompatActivity {
         tv2 = findViewById(R.id.listtv2);
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      /*  listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
@@ -55,7 +55,7 @@ public class ListActivity extends AppCompatActivity {
                 }
 
             }
-        });
+        });*/
 
         tv.setText("처음으로 디데이를 입력해주세요\n");
         tv2.setText("훗날기억을 되새겨 봄으로써 순간이나마\n그 시절의 감성을 느낄 수 있는\n추억은, 그 자체로 축복이다.");
@@ -87,7 +87,7 @@ public class ListActivity extends AppCompatActivity {
     public void Onclick(View view) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
-        finish();
+
     }
 
     public void backbtn(View view) {
