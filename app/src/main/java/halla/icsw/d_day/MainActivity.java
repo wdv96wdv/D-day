@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity
         stv = findViewById(R.id.seekbartext);
         tts = new TextToSpeech(this, this);
         ddayText = findViewById(R.id.dday);
-        todayText = findViewById(R.id.today);
+        //todayText = findViewById(R.id.today);
         resultText = findViewById(R.id.result);
         dateButton = findViewById(R.id.dateButton);
         SeekBar sb = findViewById(R.id.seekBar);
