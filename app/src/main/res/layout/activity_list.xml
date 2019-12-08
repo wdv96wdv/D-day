@@ -37,7 +37,7 @@
         android:layout_marginLeft="19dp"
         android:scaleType="fitCenter"
         android:background="@android:color/transparent"
-        android:onClick="backbtn" />
+        android:onClick="onClickbackbtn" />
 
 
     <ListView
@@ -55,6 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:fontFamily="@font/font1"
+        android:onClick="onclickbtn"
         android:textSize="25dp"/>
 
     <TextView

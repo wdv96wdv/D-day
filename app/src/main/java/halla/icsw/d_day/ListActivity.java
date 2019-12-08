@@ -28,13 +28,13 @@ public class ListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list);
         //test
         list = new ArrayList<>();
-        list.add("D-day 입력");
 
         listView = findViewById(R.id.list);
         simpleAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
         listView.setAdapter(simpleAdapter);
         tv = findViewById(R.id.listtv);
         tv2 = findViewById(R.id.listtv2);
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -61,6 +61,14 @@ public class ListActivity extends AppCompatActivity {
         tv2.setText("훗날기억을 되새겨 봄으로써 순간이나마\n그 시절의 감성을 느낄 수 있는\n추억은, 그 자체로 축복이다.");
     }
 
+    public void onclickbtn(View view) {
+        Intent intent1 = new Intent(ListActivity.this, MainActivity.class);
+        intent1.putExtra("request", 0);
+        startActivityForResult(intent1, 0);
+        finish();
+    }
+
+
 
     @Override
     protected void onResume() {
@@ -79,6 +87,7 @@ public class ListActivity extends AppCompatActivity {
     public void Onclick(View view) {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     public void backbtn(View view) {
