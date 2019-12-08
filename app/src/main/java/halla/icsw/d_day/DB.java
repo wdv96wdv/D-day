@@ -14,6 +14,8 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
         super(context, name, factory, version);
     }
 
+
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         Log.i("tag","db 생성_db가 없을때만 최초로 실행함");
@@ -46,7 +48,7 @@ class DatabaseOpenHelper extends SQLiteOpenHelper {
         }
     }
 
-    public void image(SQLiteDatabase db ,String draw){
+    public static void image(SQLiteDatabase db ,String draw){
         db.beginTransaction();
         try {
             String sql = "INSERT INTO " + tableName + "(img)" + "values('"+ draw +"')";

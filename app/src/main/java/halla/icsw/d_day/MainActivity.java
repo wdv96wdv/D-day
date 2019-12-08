@@ -2,46 +2,38 @@ package halla.icsw.d_day;
 
 
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.drm.DrmStore;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.session.PlaybackState;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.speech.tts.TextToSpeech;
 import android.util.Base64;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileNotFoundException;
@@ -58,7 +50,7 @@ public class MainActivity extends AppCompatActivity
     implements TextToSpeech.OnInitListener {
     TextToSpeech tts;
     int version = 1;
-    float speed = 0;
+    float speed = 1;
     TextView stv;
     DatabaseOpenHelper helper;
     SQLiteDatabase database;
@@ -120,49 +112,27 @@ public class MainActivity extends AppCompatActivity
         stv = findViewById(R.id.seekbartext);
         tts = new TextToSpeech(this, this);
         ddayText = findViewById(R.id.dday);
-        //todayText = findViewById(R.id.today);
         resultText = findViewById(R.id.result);
         dateButton = findViewById(R.id.dateButton);
         SeekBar sb = findViewById(R.id.seekBar);
         RelativeLayout = findViewById(R.id.Layout);
         etv = findViewById(R.id.title);
-
         if(savedInstanceState ==null){
             MainFragment mainFragment = new MainFragment();
            fragmentTransaction= getSupportFragmentManager().beginTransaction();
            fragmentTransaction.replace(R.id.mainFragment,mainFragment,"main").commit();
         }
-
-        /*int request = getIntent().getIntExtra("request", -1);
-
-        switch (request) {
-            case 0:
-
-                dateButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.putExtra("data", "한라대학교");
-                        setResult(0, intent);
-                        finish(); // 액테비티가 종료되면 ListActivity의 onResume 메서드가 실행되면서 리스트를 dataSetChange메서드를 이용해서 list를 갱신합니다.
-                    }
-                });
-
-                break;
-        }*/
-
         String sql = "SELECT img FROM " + helper.tableName;
         String img = null;
         cursor = database.rawQuery(sql, null);
         cursor.moveToLast();
-
         int x = cursor.getCount() - 1;
         Drawable draw;
         if (cursor.getCount() == 1) {
             draw = getDrawable(R.drawable.dday2);//메인화면 레이아웃 백그라운드 이미지
         } else {
             img = cursor.getString(cursor.getPosition() - x);
-            byte[] encodeByte = Base64.decode(img, Base64.DEFAULT);
+            byte[] encodeByte = Base64.decode(img, Base64.NO_WRAP);
             Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
             draw = new BitmapDrawable(bitmap);
         }
@@ -192,7 +162,6 @@ public class MainActivity extends AppCompatActivity
                 showDialog(0);//----------------
             }
         });
-
 
         Calendar calendar = Calendar.getInstance();              //현재 날짜 불러옴
         tYear = calendar.get(Calendar.YEAR);
@@ -239,14 +208,18 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == GET_GALLERY_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             try {
                 InputStream in = getContentResolver().openInputStream(data.getData());
-                BitmapFactory.Options options = new BitmapFactory.Options();
-
-                options.inSampleSize = 2;
-                Bitmap img = BitmapFactory.decodeStream(in,null,options);
+                Bitmap img = BitmapFactory.decodeStream(in);
                 in.close();
                 Drawable drawable =new BitmapDrawable(img);
                 drawable.setAlpha(70);
                 RelativeLayout.setBackgroundDrawable(drawable);
+
+                ByteArrayOutputStream byteArrayOutputStream =new ByteArrayOutputStream();
+                img.compress(Bitmap.CompressFormat.JPEG,70,byteArrayOutputStream);
+                byte[] imageBytes =byteArrayOutputStream.toByteArray();
+                String str = Base64.encodeToString(imageBytes,Base64.NO_WRAP);
+
+                DatabaseOpenHelper.image(database,str);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -300,7 +273,7 @@ public class MainActivity extends AppCompatActivity
                 timeget();
                 updateDisplay();
                 for(int i=0; i<3; i++) voiceCheck[i]=false;
-                Speak(resultText.getText().toString());
+                Speak("남은날짜는"+resultText.getText().toString());
             }
             else Speak(str2+"은 날짜가 아닙니다.");
         }
@@ -416,7 +389,19 @@ public boolean onOptionsItemSelected(MenuItem item) {
     }//왼쪽 상단에 백버튼 눌렀을때
 
     public void onClicksave(View view){
-        String string = ddayText.getText().toString()+ "\n" + resultText.getText().toString()+"                              "+etv.getText().toString()+"\n";
+        double latitude = MainFragment.markerpos.latitude;
+        double longitude = MainFragment.markerpos.longitude;
+        Geocoder geocoder = new Geocoder(this);
+        String str="";
+        try {
+            List<Address> resultaddress = geocoder.getFromLocation(latitude,longitude,1);
+            str = resultaddress.get(0).getCountryCode()+"   "+resultaddress.get(0).getAdminArea()+"   "+resultaddress.get(0).getThoroughfare();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+        String string = ddayText.getText().toString()+ "\n" + resultText.getText().toString()+"\n"+etv.getText().toString()+"\n"+str;
         ListActivity.list.add(string); //날짜 입력의 static 메모리 변수에 list에 데이터 추가
         Intent intent = new Intent();
         intent.putExtra("data",string);
@@ -429,8 +414,9 @@ public boolean onOptionsItemSelected(MenuItem item) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().remove(fragment).commit();
         fragmentManager.popBackStack();
-
-
+        //프래그먼트 = 액티비티에 다른액티비티를 보여주는것
+        //구글 api는 맵api와 통신도중 다른액티비티를 부르게되면 애플리케이션이 종료됨 그레서 다른액티비티 부르기전에
+        //프래그먼트를 종료함
        finish();
 
     }//오른쪽 상단에 세이브버튼 눌렀을때
