@@ -396,6 +396,7 @@ public boolean onOptionsItemSelected(MenuItem item) {
         try {
             List<Address> resultaddress = geocoder.getFromLocation(latitude,longitude,1);
             str = resultaddress.get(0).getCountryCode()+"   "+resultaddress.get(0).getAdminArea()+"   "+resultaddress.get(0).getThoroughfare();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
