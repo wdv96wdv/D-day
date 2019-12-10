@@ -184,7 +184,6 @@ public class MainActivity extends AppCompatActivity
         setActionBar();
     }
 
-
     public void timeget(){
         Calendar dCalendar = Calendar.getInstance();
         dCalendar.set(dYear, dMonth, dDay);
@@ -193,6 +192,7 @@ public class MainActivity extends AppCompatActivity
         d = dCalendar.getTimeInMillis();              //디데이날짜를 밀리타임으로 바꿈
         r = (d - t) / (24 * 60 * 60 * 1000);                 //디데이 날짜에서 오늘 날짜를 뺀 값을 '일'단위로 바꿈
         resultNumber = (int) r;
+
     }
     private  void setActionBar() {
         CustomActionBar ca = new CustomActionBar(this, getSupportActionBar());
