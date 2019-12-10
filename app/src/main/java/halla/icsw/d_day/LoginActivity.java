@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 if(!pw.equals(cursor.getString(0))){
                     //비밀번호가 틀렸습니다.
                     Toast toast = Toast.makeText(LoginActivity.this, "비밀번호가 틀렸습니다.", Toast.LENGTH_SHORT);
-                    toast.show();
+                     toast.show();
                 }else{
                     //로그인성공
                     Toast toast = Toast.makeText(LoginActivity.this, "로그인성공", Toast.LENGTH_SHORT);
@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                 toast.show();
                 Intent intent = new Intent(getApplicationContext(),JoinActivity.class);
                 startActivity(intent);
-                finish();
+
             }
         });
 

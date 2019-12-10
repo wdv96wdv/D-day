@@ -401,7 +401,7 @@ public boolean onOptionsItemSelected(MenuItem item) {
         }
 
 
-        String string = ddayText.getText().toString()+ "                                "+etv.getText().toString() + "\n" + resultText.getText().toString()+"                                "+str;
+        String string = ddayText.getText().toString()+ "\n"+etv.getText().toString() + "\n" + resultText.getText().toString()+"\n"+str;
         ListActivity.list.add(string); //날짜 입력의 static 메모리 변수에 list에 데이터 추가
         Intent intent = new Intent();
         intent.putExtra("data",string);
